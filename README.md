@@ -31,7 +31,7 @@ You can also ask:
 
 ## Connect your AI assistant
 
-Choose the connection supported by your client. Every option reaches the same customer-facing DropTrack tool catalog and uses DropTrack sign-in.
+Choose the connection supported by your client. Every option uses DropTrack sign-in and exposes only customer-facing tools allowed by your account. The exact catalog can vary by client: provider-managed directory connectors may omit features that the provider does not accept, while a direct MCP connection exposes the complete customer catalog allowed by your DropTrack plan and permissions. Internal administrative capabilities are not part of customer integrations.
 
 | Client | Recommended connection |
 | --- | --- |
