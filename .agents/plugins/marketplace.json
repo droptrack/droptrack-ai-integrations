@@ -1,0 +1,20 @@
+{
+  "name": "droptrack",
+  "interface": {
+    "displayName": "DropTrack"
+  },
+  "plugins": [
+    {
+      "name": "droptrack",
+      "source": {
+        "source": "local",
+        "path": "./plugins/droptrack"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "droptrack": {
+      "type": "http",
+      "url": "https://mcp.droptrack.com/mcp"
+    }
+  }
+}
