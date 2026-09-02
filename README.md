@@ -29,15 +29,33 @@ You can also ask:
 - Compare engagement across my recent campaigns.
 - Draft a promotion campaign for my latest release.
 
-## Connect
+## Connect your AI assistant
+
+Choose the connection supported by your client. Every option reaches the same customer-facing DropTrack tool catalog and uses DropTrack sign-in.
+
+| Client | Recommended connection |
+| --- | --- |
+| ChatGPT and Codex | Install the public DropTrack plugin |
+| Claude.ai | Add the DropTrack remote MCP connector when your plan or workspace supports custom connectors |
+| Claude Code | Install the DropTrack plugin marketplace package |
+| Cursor | Use this Agent Plugins package or add the remote MCP server |
+| Gemini CLI | Install this repository as a Gemini CLI extension |
+| VS Code and GitHub Copilot | Add the remote MCP server from VS Code MCP settings |
+| Other MCP clients | Connect to the Streamable HTTP endpoint |
 
 ### ChatGPT and Codex
 
 Install the official [DropTrack plugin](https://chatgpt.com/plugins/plugin_asdk_app_6a717dd3f15c819195cf3288aec0207f), sign in to DropTrack when prompted, and start with one of the prompts above.
 
-### Claude Code
+### Claude and Claude Code
 
-Add the official DropTrack marketplace and install the plugin:
+In Claude.ai, add a custom connector with this URL when your plan or workspace supports custom connectors:
+
+```text
+https://mcp.droptrack.com/mcp
+```
+
+In Claude Code, add the official DropTrack marketplace and install the plugin:
 
 ```text
 /plugin marketplace add droptrack/droptrack-ai-integrations
@@ -46,12 +64,20 @@ Add the official DropTrack marketplace and install the plugin:
 
 ### Cursor
 
-This repository is an [Agent Plugins 1.0](https://agent-plugins.org/) package. It can be installed from the public repository and is also prepared for the Cursor Marketplace.
+This repository is an [Agent Plugins 1.0](https://agent-plugins.org/) package. It can be installed from the public repository. You can also add the remote MCP endpoint directly in Cursor's MCP settings.
 
 ### Gemini CLI
 
 ```sh
 gemini extensions install https://github.com/droptrack/droptrack-ai-integrations
+```
+
+### VS Code and GitHub Copilot
+
+Use **MCP: Add Server** in the VS Code Command Palette, choose an HTTP server, and enter:
+
+```text
+https://mcp.droptrack.com/mcp
 ```
 
 ### Other MCP clients
@@ -63,6 +89,13 @@ https://mcp.droptrack.com/mcp
 ```
 
 The server uses OAuth. Your client should open DropTrack sign-in automatically when it first connects.
+
+## Directories and discovery
+
+- [Official MCP Registry](https://registry.modelcontextprotocol.io/?q=io.github.droptrack%2Fdroptrack)
+- [Smithery](https://smithery.ai/servers/droptrack/droptrack)
+- [ChatGPT and Codex plugin](https://chatgpt.com/plugins/plugin_asdk_app_6a717dd3f15c819195cf3288aec0207f)
+- [Gemini CLI extension gallery](https://geminicli.com/extensions/), indexed automatically from the public repository topic and root manifest
 
 ## Documentation and support
 
@@ -85,6 +118,8 @@ The server uses OAuth. Your client should open DropTrack sign-in automatically w
 ## Security
 
 Do not include tokens, passwords, customer exports, or production data in issues. See [SECURITY.md](SECURITY.md) for responsible reporting.
+
+DropTrack records operational MCP events needed to measure adoption and reliability: request or method type, tool name, success or failure, latency, authorized DropTrack user and company identifiers, and a client-reported application name when available. It does not record prompt text, tool input values, track content, or OAuth secrets. Client-reported application names are useful for directional reporting but are not verified provider identity.
 
 ## License
 
