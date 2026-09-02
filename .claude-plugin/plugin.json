@@ -1,0 +1,13 @@
+{
+  "name": "droptrack",
+  "version": "1.0.0",
+  "description": "Analyze tracks and manage customer music-promotion workflows with your DropTrack account.",
+  "author": {
+    "name": "DropTrack"
+  },
+  "homepage": "https://www.droptrack.com/mcp-ai-assistant/",
+  "repository": "https://github.com/droptrack/droptrack-ai-integrations",
+  "license": "MIT",
+  "keywords": ["music", "track-analysis", "music-promotion", "mcp"],
+  "mcpServers": "./.mcp.json"
+}

@@ -1,0 +1,30 @@
+name: Validate integration metadata
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Parse JSON manifests
+        run: |
+          python -m json.tool plugin.json >/dev/null
+          python -m json.tool mcp.json >/dev/null
+          python -m json.tool .mcp.json >/dev/null
+          python -m json.tool .codex-plugin/plugin.json >/dev/null
+          python -m json.tool .claude-plugin/plugin.json >/dev/null
+          python -m json.tool .claude-plugin/marketplace.json >/dev/null
+          python -m json.tool .agents/plugins/marketplace.json >/dev/null
+          python -m json.tool gemini-extension.json >/dev/null
+          python -m json.tool server.json >/dev/null
+          python -m json.tool plugins/droptrack/.codex-plugin/plugin.json >/dev/null
+          python -m json.tool plugins/droptrack/.claude-plugin/plugin.json >/dev/null
+          python -m json.tool plugins/droptrack/.mcp.json >/dev/null

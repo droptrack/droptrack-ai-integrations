@@ -1,0 +1,21 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "droptrack",
+  "version": "1.0.0",
+  "description": "Analyze tracks and manage customer music-promotion workflows with your DropTrack account.",
+  "author": {
+    "name": "DropTrack",
+    "url": "https://www.droptrack.com/"
+  },
+  "homepage": "https://www.droptrack.com/mcp-ai-assistant/",
+  "repository": "https://github.com/droptrack/droptrack-ai-integrations",
+  "license": "MIT",
+  "keywords": ["droptrack", "music", "track-analysis", "music-promotion", "mcp"],
+  "extensions": {
+    "com.droptrack": {
+      "displayName": "DropTrack",
+      "documentation": "https://droptrack.freshdesk.com/support/solutions/articles/9000276586",
+      "officialOpenAIPlugin": "https://chatgpt.com/plugins/plugin_asdk_app_6a717dd3f15c819195cf3288aec0207f"
+    }
+  }
+}

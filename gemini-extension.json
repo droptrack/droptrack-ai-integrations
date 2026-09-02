@@ -1,0 +1,10 @@
+{
+  "name": "droptrack",
+  "version": "1.0.0",
+  "description": "Analyze tracks and manage customer music-promotion workflows with your DropTrack account.",
+  "mcpServers": {
+    "droptrack": {
+      "httpUrl": "https://mcp.droptrack.com/mcp"
+    }
+  }
+}

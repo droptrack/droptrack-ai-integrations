@@ -1,0 +1,19 @@
+{
+  "name": "droptrack",
+  "owner": {
+    "name": "DropTrack"
+  },
+  "metadata": {
+    "description": "Official DropTrack plugins for AI-assisted music analysis and promotion."
+  },
+  "plugins": [
+    {
+      "name": "droptrack",
+      "source": "./plugins/droptrack",
+      "description": "Analyze tracks and manage customer music-promotion workflows with your DropTrack account.",
+      "version": "1.0.0",
+      "category": "productivity",
+      "tags": ["music", "track-analysis", "promotion", "mcp"]
+    }
+  ]
+}
