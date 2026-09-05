@@ -95,6 +95,7 @@ The server uses OAuth. Your client should open DropTrack sign-in automatically w
 - [Official MCP Registry](https://registry.modelcontextprotocol.io/?q=io.github.droptrack%2Fdroptrack)
 - [Smithery](https://smithery.ai/servers/droptrack/droptrack)
 - [Glama](https://glama.ai/mcp/connectors/io.github.droptrack/droptrack)
+- [LobeHub](https://lobehub.com/mcp/droptrack)
 - [ChatGPT and Codex plugin](https://chatgpt.com/plugins/plugin_asdk_app_6a717dd3f15c819195cf3288aec0207f)
 - [Gemini CLI extension gallery](https://geminicli.com/extensions/), indexed automatically from the public repository topic and root manifest
 
@@ -114,6 +115,7 @@ The server uses OAuth. Your client should open DropTrack sign-in automatically w
 - `.claude-plugin/`: Claude Code plugin and marketplace metadata
 - `gemini-extension.json`: Gemini CLI extension metadata
 - `server.json`: official MCP Registry metadata
+- `lhm.plugin.json`: LobeHub owner metadata and customer-only tool catalog
 - `plugins/droptrack/`: self-contained marketplace package
 
 ## Security
