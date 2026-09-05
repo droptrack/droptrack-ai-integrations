@@ -1,0 +1,18 @@
+{
+  "author": "DropTrack",
+  "authorUrl": "https://github.com/droptrack",
+  "category": "marketing",
+  "cloudEndpoint": "https://mcp.droptrack.com/mcp",
+  "description": "Analyze tracks, find submission opportunities, and manage music-promotion workflows through your DropTrack account.",
+  "homepage": "https://www.droptrack.com/mcp-ai-assistant/",
+  "icon": "https://raw.githubusercontent.com/droptrack/droptrack-ai-integrations/main/assets/icon.png",
+  "identifier": "droptrack",
+  "name": "DropTrack",
+  "tags": [
+    "music",
+    "music-analysis",
+    "music-marketing",
+    "submission-opportunities"
+  ],
+  "version": "1.0.0"
+}
