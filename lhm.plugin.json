@@ -14,5 +14,1793 @@
     "music-marketing",
     "submission-opportunities"
   ],
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "tools": [
+    {
+      "name": "droptrack_get_runtime_context",
+      "description": "Attest the connected DropTrack MCP stage, base URL, non-secret database fingerprint, configured database-target match, Lambda identity, region, and authorization role. Call this before any write. Require databaseTargetMatchesExpected=true, compare stage, base URL, and fingerprint to the canonical environment table, then pass the exact stage and database fingerprint to guarded write tools. Never infer environment from company data alone.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_list_tracks",
+      "description": "List tracks in the current company with play, download, and view counts. Returns paginated results and, when the library is empty, guidance for requesting an audio file or Spotify/SoundCloud link.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 20,
+            "description": "Number of results per page (1-100)"
+          },
+          "cursor": {
+            "type": "number",
+            "minimum": 0,
+            "default": 0,
+            "description": "Pagination cursor (offset)"
+          }
+        },
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_get_track_details",
+      "description": "Get full details for a specific track including all versions, genre, key, and audio URLs.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "trackId": {
+            "type": "number",
+            "description": "The track ID to get details for"
+          }
+        },
+        "required": [
+          "trackId"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_get_track_analytics",
+      "description": "Get track analytics (plays, downloads, views) over a date range. Optionally scope results to a specific track version.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "trackId": {
+            "type": "number",
+            "description": "The track ID"
+          },
+          "from": {
+            "type": "string",
+            "description": "Start date (YYYY-MM-DD)"
+          },
+          "to": {
+            "type": "string",
+            "description": "End date (YYYY-MM-DD)"
+          },
+          "versionId": {
+            "type": "number",
+            "description": "Optional track version ID to filter analytics to a single version"
+          }
+        },
+        "required": [
+          "trackId",
+          "from",
+          "to"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_get_comments",
+      "description": "Get timestamped comments for a track, across a playlist, or within a campaign.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "scopeType": {
+            "type": "string",
+            "enum": [
+              "track",
+              "playlist",
+              "campaign"
+            ],
+            "default": "track",
+            "description": "Comment scope to query"
+          },
+          "scopeId": {
+            "type": "number",
+            "description": "Track ID, playlist ID, or campaign ID matching scopeType"
+          },
+          "versionId": {
+            "type": "number",
+            "description": "Optional track version ID when scopeType is track"
+          },
+          "limit": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 50,
+            "description": "Number of results per page"
+          },
+          "cursor": {
+            "type": "number",
+            "minimum": 0,
+            "default": 0,
+            "description": "Pagination cursor (offset)"
+          }
+        },
+        "required": [
+          "scopeId"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_get_track_downloads",
+      "description": "Get download history for a track — who downloaded, format, version, and when.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "trackId": {
+            "type": "number",
+            "description": "The track ID"
+          },
+          "versionId": {
+            "type": "number",
+            "description": "Optional track version ID to filter downloads to a single version"
+          },
+          "limit": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 20,
+            "description": "Number of results per page"
+          },
+          "cursor": {
+            "type": "number",
+            "minimum": 0,
+            "default": 0,
+            "description": "Pagination cursor (offset)"
+          }
+        },
+        "required": [
+          "trackId"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_list_campaigns",
+      "description": "List campaigns in the current company with status and basic engagement stats (opens, plays, downloads, feedback count).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 20,
+            "description": "Number of results per page (1-100)"
+          },
+          "cursor": {
+            "type": "number",
+            "minimum": 0,
+            "default": 0,
+            "description": "Pagination cursor (offset)"
+          }
+        },
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_get_campaign_details",
+      "description": "Get full campaign details, including subject, playlist identity and track count, saved and actual recipient counts, status, Reply-To email, creator test-recipient email, and settings.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "campaignId": {
+            "type": "number",
+            "description": "The campaign ID"
+          }
+        },
+        "required": [
+          "campaignId"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_validate_campaign_draft",
+      "description": "Read-only preflight for a campaign draft before using DropTrack Send Test. Requires the expected playlist and contact list, supports normalized-email exclusions from linked lists and exact saved recipient snapshots from prior campaigns, and verifies draft state, audience persistence, subject, optional signoff, Reply-To/test-recipient routing, and outbound U+2014 em-dash safety. This tool does not send email or launch the campaign.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "campaignId": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "description": "The exact campaign draft ID"
+          },
+          "expectedPlaylistId": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "description": "The playlist ID the draft must contain"
+          },
+          "expectedContactListId": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "description": "The contact list ID the draft must contain"
+          },
+          "expectedExcludedContactListIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "maxItems": 50,
+            "description": "Linked contact list IDs whose normalized-email members must be absent from the saved draft audience"
+          },
+          "expectedExcludedCampaignIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "maxItems": 50,
+            "description": "Prior campaign IDs whose exact saved recipient snapshots must be absent from the saved draft audience"
+          },
+          "expectedSubject": {
+            "type": "string",
+            "description": "Optional exact subject guard"
+          },
+          "expectedSignoff": {
+            "type": "string",
+            "description": "Optional exact signoff text that must appear in the message"
+          }
+        },
+        "required": [
+          "campaignId",
+          "expectedPlaylistId",
+          "expectedContactListId"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_get_campaign_analytics",
+      "description": "Get per-contact engagement analytics for a campaign — opens, plays, downloads, and feedback for each recipient.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "campaignId": {
+            "type": "number",
+            "description": "The campaign ID"
+          }
+        },
+        "required": [
+          "campaignId"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_get_campaign_nudge_summary",
+      "description": "Get CRM nudge settings, funnel totals, stuck-contact buckets, sent nudge history, and weekly digest state for a campaign.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "campaignId": {
+            "type": "number",
+            "description": "The campaign ID"
+          }
+        },
+        "required": [
+          "campaignId"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_list_campaign_nudge_contacts",
+      "description": "List recipients in a campaign with CRM nudge signal state, sent nudges, next scheduled nudge, and reply suppression status.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "campaignId": {
+            "type": "number",
+            "description": "The campaign ID"
+          },
+          "search": {
+            "type": "string",
+            "description": "Optional search term for contact name, email, or company"
+          },
+          "limit": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 20,
+            "description": "Number of contacts per page"
+          },
+          "cursor": {
+            "type": "number",
+            "minimum": 0,
+            "default": 0,
+            "description": "Pagination cursor (offset)"
+          }
+        },
+        "required": [
+          "campaignId"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_create_draft_campaign",
+      "description": "Create and read back a complete Draft-status campaign without sending it. Supports customer-owned and linked DropTrack-managed contact lists, persists a required subject/message, exact playlist, active subscribed recipients, creator identity, theme, and settings, and can exclude normalized-email members of linked lists or exact saved recipient snapshots from prior campaigns. Use campaign exclusions for historical no-repeat guarantees. Rejects U+2014 em dashes. Run droptrack_validate_campaign_draft before opening the native Send Test flow.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "expectedStage": {
+            "type": "string",
+            "enum": [
+              "local",
+              "dev",
+              "stage",
+              "prod"
+            ],
+            "description": "Intended DropTrack environment from droptrack_get_runtime_context; use prod only for production"
+          },
+          "expectedDatabaseFingerprint": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{16}$",
+            "description": "Exact non-secret database fingerprint returned by droptrack_get_runtime_context"
+          },
+          "playlistId": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "description": "Active playlist ID containing the tracks to send"
+          },
+          "contactListId": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "description": "Contact list ID whose active subscribed members become saved draft recipients"
+          },
+          "excludeContactListIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "maxItems": 50,
+            "default": [],
+            "description": "Other linked contact list IDs whose normalized-email members must be excluded from this draft audience"
+          },
+          "excludeCampaignIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "maxItems": 50,
+            "default": [],
+            "description": "Prior campaign IDs whose exact saved recipient snapshots must be excluded by normalized email; use this for historical no-repeat guarantees"
+          },
+          "campaignName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160,
+            "description": "Internal name for the campaign"
+          },
+          "campaignSubject": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160,
+            "description": "Required recipient-facing email subject; U+2014 is rejected"
+          },
+          "campaignMessage": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Required recipient-facing message; U+2014 is rejected"
+          },
+          "themeId": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "default": 1,
+            "description": "Built-in or company-owned active campaign theme ID"
+          },
+          "allowDownload": {
+            "type": "boolean",
+            "default": false,
+            "description": "Allow recipients to download tracks"
+          },
+          "allowMp3": {
+            "type": "boolean",
+            "default": true,
+            "description": "Allow MP3 downloads"
+          },
+          "allowWav": {
+            "type": "boolean",
+            "default": false,
+            "description": "Allow WAV downloads"
+          },
+          "requireFeedback": {
+            "type": "boolean",
+            "default": false,
+            "description": "Require feedback before downloading"
+          }
+        },
+        "required": [
+          "expectedStage",
+          "expectedDatabaseFingerprint",
+          "playlistId",
+          "contactListId",
+          "campaignName",
+          "campaignSubject",
+          "campaignMessage"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_search_contacts",
+      "description": "Search contacts by name, email, or company.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "search": {
+            "type": "string",
+            "description": "Search term for name, email, or company"
+          },
+          "limit": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 20,
+            "description": "Number of results per page"
+          },
+          "cursor": {
+            "type": "number",
+            "minimum": 0,
+            "default": 0,
+            "description": "Pagination cursor (offset)"
+          }
+        },
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_list_contact_lists",
+      "description": "List all contact lists for the current company with the number of contacts in each list.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 20,
+            "description": "Number of results per page"
+          },
+          "cursor": {
+            "type": "number",
+            "minimum": 0,
+            "default": 0,
+            "description": "Pagination cursor (offset)"
+          }
+        },
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_get_contact_details",
+      "description": "Get the full profile of a specific contact including subscription status.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "contactId": {
+            "type": "number",
+            "description": "The contact ID"
+          }
+        },
+        "required": [
+          "contactId"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_get_contact_nudge_context",
+      "description": "Get CRM nudge context for one contact: active campaigns watching the contact and recent automated nudges sent for that contact.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "contactId": {
+            "type": "number",
+            "description": "The contact ID"
+          },
+          "limit": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 25,
+            "description": "Maximum campaigns and sent nudges to return"
+          }
+        },
+        "required": [
+          "contactId"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_add_contact",
+      "description": "Add a new contact to the current company.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "description": "Contact first name"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Contact last name"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Contact email address"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Contact phone number"
+          },
+          "company": {
+            "type": "string",
+            "description": "Contact company/organization"
+          },
+          "website": {
+            "type": "string",
+            "description": "Contact website URL"
+          },
+          "slug": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 30,
+            "pattern": "^[a-zA-Z0-9_-]+$",
+            "description": "Optional public contact-link slug; generated from contact details when omitted"
+          }
+        },
+        "required": [
+          "firstName",
+          "lastName",
+          "email"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_create_contact_list",
+      "description": "Create a new contact list in the current company.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name for the new contact list"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_add_contacts_to_list",
+      "description": "Add one or more contacts to an existing contact list.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "listId": {
+            "type": "number",
+            "description": "Contact list ID"
+          },
+          "contactIds": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "description": "Array of contact IDs to add"
+          }
+        },
+        "required": [
+          "listId",
+          "contactIds"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_list_playlists",
+      "description": "List all playlists in the current company with track counts.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 20,
+            "description": "Number of results per page"
+          },
+          "cursor": {
+            "type": "number",
+            "minimum": 0,
+            "default": 0,
+            "description": "Pagination cursor (offset)"
+          }
+        },
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_get_playlist_details",
+      "description": "Get full playlist details including tracks, feedback, and view/download/feedback stats.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "playlistId": {
+            "type": "number",
+            "description": "The playlist ID"
+          }
+        },
+        "required": [
+          "playlistId"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_list_companies",
+      "description": "List all companies the authenticated user belongs to. Useful for users with multiple label/company accounts. Company switching must be performed through the authenticated client/session, not through a model-visible tool.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_list_assets",
+      "description": "List company assets: uploaded/AI images or documents.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "assetType": {
+            "type": "string",
+            "enum": [
+              "image",
+              "document"
+            ],
+            "default": "image",
+            "description": "Asset category to list"
+          },
+          "sourceType": {
+            "type": "string",
+            "enum": [
+              "upload",
+              "ai_album_art"
+            ],
+            "description": "Optional image source filter when assetType is image"
+          },
+          "targetType": {
+            "type": "string",
+            "enum": [
+              "track",
+              "playlist"
+            ],
+            "description": "Optional image target type"
+          },
+          "targetId": {
+            "type": "number",
+            "description": "Optional track or playlist ID when targetType is provided"
+          },
+          "playlistId": {
+            "type": "number",
+            "description": "Optional playlist ID when assetType is document"
+          },
+          "limit": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 20,
+            "description": "Number of results per page"
+          },
+          "cursor": {
+            "type": "number",
+            "minimum": 0,
+            "default": 0,
+            "description": "Pagination cursor (offset)"
+          }
+        },
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_list_ad_campaigns",
+      "description": "List Grow/ads campaigns for the current company with budget, delivery, landing page, and creative counts.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Optional ads campaign status filter such as draft, active, live, paused, completed, or failed"
+          },
+          "promotionType": {
+            "type": "string",
+            "description": "Optional promotion type filter such as spotify, droptrack, or artist"
+          },
+          "limit": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 20,
+            "description": "Number of results per page"
+          },
+          "cursor": {
+            "type": "number",
+            "minimum": 0,
+            "default": 0,
+            "description": "Pagination cursor (offset)"
+          }
+        },
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_get_ad_campaign_details",
+      "description": "Get details for a Grow/ads campaign, including landing page, creatives, and recent daily metrics.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "campaignId": {
+            "type": "number",
+            "description": "The ads campaign ID"
+          }
+        },
+        "required": [
+          "campaignId"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_get_ad_analytics",
+      "description": "Get Grow/ads daily analytics over a date range. Returns company totals or a single campaign when campaignId is supplied.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "string",
+            "description": "Start date (YYYY-MM-DD)"
+          },
+          "to": {
+            "type": "string",
+            "description": "End date (YYYY-MM-DD)"
+          },
+          "campaignId": {
+            "type": "number",
+            "description": "Optional ads campaign ID"
+          }
+        },
+        "required": [
+          "from",
+          "to"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_get_ads_wallet",
+      "description": "Get the current company ads wallet balance and recent wallet transactions.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 20,
+            "description": "Number of transactions per page"
+          },
+          "cursor": {
+            "type": "number",
+            "minimum": 0,
+            "default": 0,
+            "description": "Pagination cursor (offset)"
+          }
+        },
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_get_label_info",
+      "description": "Get label-family metadata for the active company, including parent label, sub-accounts visible to label admins, and shared wallet status.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "labelCompanyId": {
+            "type": "number",
+            "description": "Admin-only override: label company ID to inspect"
+          }
+        },
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_list_label_artists",
+      "description": "List artist sub-accounts under the active label. Requires label-admin access.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "labelCompanyId": {
+            "type": "number",
+            "description": "Admin-only override: label company ID"
+          }
+        },
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_list_label_team",
+      "description": "List users with access to the label parent and artist sub-accounts. Requires label-admin access.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "labelCompanyId": {
+            "type": "number",
+            "description": "Admin-only override: label company ID"
+          }
+        },
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_list_label_contacts",
+      "description": "List contacts across the label family, with label versus artist ownership annotations.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "artistIds": {
+            "type": "string",
+            "description": "Optional comma-separated company IDs to scope contacts to; omit or use all for the whole visible family"
+          },
+          "labelCompanyId": {
+            "type": "number",
+            "description": "Admin-only override: label company ID"
+          },
+          "limit": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 20,
+            "description": "Number of results per page"
+          },
+          "cursor": {
+            "type": "number",
+            "minimum": 0,
+            "default": 0,
+            "description": "Pagination cursor (offset)"
+          }
+        },
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_get_label_analytics",
+      "description": "Get cross-roster label analytics over a date range: totals, artist rollups, top tracks, and top contacts. Requires label-admin access.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "string",
+            "description": "Start date (YYYY-MM-DD)"
+          },
+          "to": {
+            "type": "string",
+            "description": "End date (YYYY-MM-DD)"
+          },
+          "artistIds": {
+            "type": "string",
+            "description": "Optional comma-separated artist company IDs; omit or use all for all artists"
+          },
+          "labelCompanyId": {
+            "type": "number",
+            "description": "Admin-only override: label company ID"
+          }
+        },
+        "required": [
+          "from",
+          "to"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_get_label_contact_360",
+      "description": "Get one contact cross-roster engagement timeline and per-artist breakdown. Requires label-admin access.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "contactId": {
+            "type": "number",
+            "description": "The contact ID"
+          },
+          "labelCompanyId": {
+            "type": "number",
+            "description": "Admin-only override: label company ID"
+          }
+        },
+        "required": [
+          "contactId"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_list_label_ad_campaigns",
+      "description": "List Grow/ads campaigns across a label family, optionally scoped to artists or date range. Requires label-admin access.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "artistIds": {
+            "type": "string",
+            "description": "Optional comma-separated company IDs; omit or use all for the whole label family"
+          },
+          "from": {
+            "type": "string",
+            "description": "Optional start date (YYYY-MM-DD)"
+          },
+          "to": {
+            "type": "string",
+            "description": "Optional end date (YYYY-MM-DD)"
+          },
+          "labelCompanyId": {
+            "type": "number",
+            "description": "Admin-only override: label company ID"
+          },
+          "limit": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 20,
+            "description": "Number of results per page"
+          },
+          "cursor": {
+            "type": "number",
+            "minimum": 0,
+            "default": 0,
+            "description": "Pagination cursor (offset)"
+          }
+        },
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_get_label_ad_analytics",
+      "description": "Get cross-roster Grow/ads analytics over a date range. Requires label-admin access.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "string",
+            "description": "Start date (YYYY-MM-DD)"
+          },
+          "to": {
+            "type": "string",
+            "description": "End date (YYYY-MM-DD)"
+          },
+          "artistIds": {
+            "type": "string",
+            "description": "Optional comma-separated company IDs; omit or use all for the whole label family"
+          },
+          "labelCompanyId": {
+            "type": "number",
+            "description": "Admin-only override: label company ID"
+          }
+        },
+        "required": [
+          "from",
+          "to"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_get_label_ads_wallet",
+      "description": "Get the label shared ads wallet balance and recent transactions. Requires label-admin access.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "labelCompanyId": {
+            "type": "number",
+            "description": "Admin-only override: label company ID"
+          },
+          "limit": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 20,
+            "description": "Number of transactions per page"
+          },
+          "cursor": {
+            "type": "number",
+            "minimum": 0,
+            "default": 0,
+            "description": "Pagination cursor (offset)"
+          }
+        },
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_set_label_shared_wallet",
+      "description": "Enable or disable the label shared ads wallet. Requires label-admin access and confirms disabling when active sub-account ads exist.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether shared ads wallet spend should be enabled for the label"
+          },
+          "confirmDisable": {
+            "type": "boolean",
+            "default": false,
+            "description": "Set true to confirm disabling when active sub-account ads exist"
+          },
+          "labelCompanyId": {
+            "type": "number",
+            "description": "Admin-only override: label company ID"
+          }
+        },
+        "required": [
+          "enabled"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_get_artist_profile",
+      "description": "Get the current company artist profile used by the AI artist bio feature, including bio, socials, genres, recent tracks, and recent generated bio jobs.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_get_user_notification_settings",
+      "description": "Get the authenticated user email notification settings, including weekly/monthly reports, engagement emails, and campaign nudge email updates.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_generate_press_release",
+      "description": "Queue an AI press release draft for a track owned by the authenticated company. Use droptrack_get_ai_job with jobType=press_release to poll the result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "trackId": {
+            "type": "number",
+            "description": "Track ID to generate a press release for"
+          },
+          "providerUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "Optional Spotify/SoundCloud/provider URL used as additional release context"
+          },
+          "inputMode": {
+            "type": "string",
+            "maxLength": 80,
+            "description": "Optional source mode label, such as uploaded_file, spotify, or soundcloud"
+          }
+        },
+        "required": [
+          "trackId"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_generate_artist_bio",
+      "description": "Queue an AI artist bio draft for the authenticated company. Poll with droptrack_get_ai_job using jobType=artist_bio.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_generate_album_art",
+      "description": "Queue AI album artwork generation for a track or playlist. Use droptrack_get_ai_job with jobType=album_art to poll candidate images, then droptrack_accept_album_art_candidate to save one.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "targetType": {
+            "type": "string",
+            "enum": [
+              "track",
+              "playlist"
+            ],
+            "default": "track",
+            "description": "Generate artwork for a track or playlist"
+          },
+          "targetId": {
+            "type": "number",
+            "description": "Track ID or playlist ID"
+          },
+          "prompt": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "Optional visual direction or vibe"
+          },
+          "style": {
+            "type": "string",
+            "enum": [
+              "abstract",
+              "photographic",
+              "illustration",
+              "minimal",
+              "retro",
+              "club/festival"
+            ],
+            "default": "abstract",
+            "description": "Visual style for the generated artwork"
+          },
+          "count": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 4,
+            "default": 2,
+            "description": "Number of candidate images to request"
+          },
+          "sourceImageId": {
+            "type": "number",
+            "description": "Optional existing image ID to use as source context"
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": {},
+            "description": "Optional metadata overrides such as title, artist, genre, bpm, key, mood, or lyrics"
+          }
+        },
+        "required": [
+          "targetId"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_get_ai_job",
+      "description": "Poll a queued AI job: press release, artist bio, or album art.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "jobType": {
+            "type": "string",
+            "enum": [
+              "press_release",
+              "artist_bio",
+              "album_art"
+            ],
+            "description": "AI job type to poll"
+          },
+          "messageId": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Message ID returned by the generate tool"
+          },
+          "trackId": {
+            "type": "number",
+            "description": "Required for press_release jobs"
+          },
+          "jobId": {
+            "type": "number",
+            "description": "Album art job ID, optional when messageId is provided"
+          }
+        },
+        "required": [
+          "jobType"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_list_ai_jobs",
+      "description": "List recent AI jobs for press releases, artist bios, or album art.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "jobType": {
+            "type": "string",
+            "enum": [
+              "press_release",
+              "artist_bio",
+              "album_art"
+            ],
+            "description": "AI job type to list"
+          },
+          "trackId": {
+            "type": "number",
+            "description": "Optional track filter for press_release jobs"
+          },
+          "targetType": {
+            "type": "string",
+            "enum": [
+              "track",
+              "playlist"
+            ],
+            "description": "Optional target filter for album_art jobs"
+          },
+          "targetId": {
+            "type": "number",
+            "description": "Optional target ID filter for album_art jobs"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "queued",
+              "processing",
+              "completed",
+              "failed"
+            ],
+            "description": "Optional status filter for album_art jobs"
+          },
+          "limit": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 50,
+            "default": 10,
+            "description": "Number of jobs per page"
+          },
+          "cursor": {
+            "type": "number",
+            "minimum": 0,
+            "default": 0,
+            "description": "Pagination cursor (offset)"
+          }
+        },
+        "required": [
+          "jobType"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_accept_album_art_candidate",
+      "description": "Save an AI album artwork candidate from droptrack_get_ai_job as a reusable DropTrack image and optionally assign it to the target track or playlist.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "number",
+            "description": "Album art generation job ID"
+          },
+          "candidateId": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Candidate ID returned by droptrack_get_ai_job for an album_art job"
+          },
+          "targetType": {
+            "type": "string",
+            "enum": [
+              "track",
+              "playlist"
+            ],
+            "default": "track",
+            "description": "Target type that will receive the saved image"
+          },
+          "targetId": {
+            "type": "number",
+            "description": "Track ID or playlist ID"
+          },
+          "assign": {
+            "type": "boolean",
+            "default": true,
+            "description": "Whether to assign the saved image to the target immediately"
+          }
+        },
+        "required": [
+          "jobId",
+          "candidateId",
+          "targetId"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_delete_album_art_image",
+      "description": "Soft-delete an AI-generated album artwork image and unassign it from tracks or playlists owned by the authenticated company.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "imageId": {
+            "type": "number",
+            "description": "AI image ID to delete"
+          }
+        },
+        "required": [
+          "imageId"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_get_track_analysis",
+      "description": "Read existing structured analyzer output for a track or track version, with optional post-upload workflow status and personalized submission opportunities. This does not queue or apply AI track tags.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "trackId": {
+            "type": "number",
+            "description": "Track ID to inspect"
+          },
+          "trackVersionId": {
+            "type": "number",
+            "description": "Optional track version ID to prioritize"
+          },
+          "includeRaw": {
+            "type": "boolean",
+            "default": false,
+            "description": "Include raw analyzer payloads in addition to structured output"
+          },
+          "statusOnly": {
+            "type": "boolean",
+            "default": false,
+            "description": "Return a compact readiness/status view for post-upload polling"
+          },
+          "includeOpportunities": {
+            "type": "boolean",
+            "default": false,
+            "description": "Also return personalized submission opportunities for this track"
+          },
+          "accountTypes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "record-label",
+                "dj",
+                "blogger",
+                "playlist-curator"
+              ]
+            },
+            "default": [
+              "record-label",
+              "dj",
+              "playlist-curator"
+            ],
+            "description": "Opportunity categories to include"
+          },
+          "opportunitiesPerType": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 25,
+            "default": 6,
+            "description": "Maximum opportunities to return per category"
+          }
+        },
+        "required": [
+          "trackId"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_create_audio_analysis_upload",
+      "description": "Create an authenticated short-lived S3 upload URL for a WAV, MP3, AIF, or AIFF file, enforcing track/version plan limits before upload.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "fileName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160,
+            "description": "Original audio filename, such as song.wav or demo.aiff"
+          },
+          "contentType": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "Audio MIME type, such as audio/wav, audio/mpeg, or audio/aiff"
+          },
+          "fileSizeBytes": {
+            "type": "number",
+            "minimum": 1,
+            "description": "Optional client-side file size for validation"
+          },
+          "trackId": {
+            "type": "number",
+            "description": "Existing DropTrack track ID when the upload will become a new track version"
+          }
+        },
+        "required": [
+          "fileName"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_analyze_audio",
+      "description": "Analyze a WAV, MP3, AIF, AIFF, SoundCloud URL, or Spotify track URL directly through MCP and return structured analysis. No browser analyzer visit is required.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "uploadKey": {
+            "type": "string",
+            "description": "upload_key returned by droptrack_create_audio_analysis_upload after the client PUTs the file"
+          },
+          "trackId": {
+            "type": "number",
+            "description": "Existing DropTrack track ID. When provided, uploaded audio is saved as a new active track version instead of a new track"
+          },
+          "s3Url": {
+            "type": "string",
+            "description": "S3 URL for an uploaded audio file, such as s3://bucket/key"
+          },
+          "audioUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "Direct HTTPS audio URL. S3 URLs are preferred for private uploads"
+          },
+          "audioBase64": {
+            "type": "string",
+            "description": "Inline base64 audio for small files only"
+          },
+          "providerUrl": {
+            "type": "string",
+            "description": "Spotify track URL/URI or SoundCloud URL"
+          },
+          "fileName": {
+            "type": "string",
+            "maxLength": 160,
+            "description": "Filename used to infer audio type when needed"
+          },
+          "contentType": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "Optional audio MIME type used when the source does not provide one"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "Optional track title used when creating a new DropTrack track"
+          },
+          "artist": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "Optional artist name used when creating a new DropTrack track"
+          },
+          "versionLabel": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "Optional label when trackId is provided and a new version is created"
+          },
+          "analysisTimeoutMs": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 18000,
+            "description": "Optional maximum milliseconds to wait for synchronous analysis before returning the saved track and polling instructions"
+          },
+          "includeOpportunities": {
+            "type": "boolean",
+            "default": true,
+            "description": "Return personalized submission opportunities derived from the analysis genres"
+          },
+          "accountTypes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "record-label",
+                "dj",
+                "blogger",
+                "playlist-curator"
+              ]
+            },
+            "default": [
+              "record-label",
+              "dj",
+              "playlist-curator"
+            ],
+            "description": "Submission opportunity categories to return with the analysis"
+          },
+          "opportunitiesPerType": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 25,
+            "default": 6,
+            "description": "Maximum submission opportunities to return per account type"
+          }
+        },
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_get_track_tags",
+      "description": "Read stored AI track-tagging output from the dedicated tag_audio workflow. This is separate from track analyzer output.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "trackId": {
+            "type": "number",
+            "description": "Track ID to inspect"
+          }
+        },
+        "required": [
+          "trackId"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_browse_submission_opportunities",
+      "description": "Browse the public DropTrack submission directory for labels, DJs, bloggers, and playlist curators.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "accountType": {
+            "type": "string",
+            "enum": [
+              "record-label",
+              "dj",
+              "blogger",
+              "playlist-curator"
+            ],
+            "default": "record-label",
+            "description": "Submission opportunity category to browse"
+          },
+          "genreSlugs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "description": "Optional public directory genre slugs, such as house, pop, hip-hop, or indie"
+          },
+          "countrySlugs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "description": "Optional public directory country slugs"
+          },
+          "countryCodes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 2
+            },
+            "description": "Optional ISO-2 country codes"
+          },
+          "searchQuery": {
+            "type": "string",
+            "maxLength": 80,
+            "description": "Optional company/name search query"
+          },
+          "guaranteedListen": {
+            "type": "boolean",
+            "default": false,
+            "description": "Only include opportunities with guaranteed listen/payment enabled"
+          },
+          "limit": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 50,
+            "default": 10,
+            "description": "Maximum opportunities to return"
+          },
+          "cursor": {
+            "type": "number",
+            "minimum": 0,
+            "default": 0,
+            "description": "Pagination cursor offset"
+          }
+        },
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_get_track_submission_opportunities",
+      "description": "Return structured promotion/submission opportunities personalized for one track: record labels, DJs, bloggers, and playlist curators.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "trackId": {
+            "type": "number",
+            "description": "Track ID to match against DropTrack submission opportunities"
+          },
+          "accountTypes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "record-label",
+                "dj",
+                "blogger",
+                "playlist-curator"
+              ]
+            },
+            "default": [
+              "record-label",
+              "dj",
+              "playlist-curator"
+            ],
+            "description": "Submission opportunity categories to match against the track"
+          },
+          "limitPerType": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 25,
+            "default": 8,
+            "description": "Maximum matched opportunities to return per account type"
+          },
+          "guaranteedListen": {
+            "type": "boolean",
+            "default": false,
+            "description": "Only return opportunities with guaranteed listen or paid-feedback options"
+          },
+          "genreSlugs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "description": "Optional additional genre slug filter"
+          },
+          "countrySlugs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "description": "Optional country slug filter"
+          },
+          "countryCodes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 2
+            },
+            "description": "Optional ISO-2 country code filter"
+          },
+          "searchQuery": {
+            "type": "string",
+            "maxLength": 80,
+            "description": "Optional company/name search filter"
+          }
+        },
+        "required": [
+          "trackId"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_request_track_tagging",
+      "description": "Queue the dedicated tag_audio workflow for one track. Poll with droptrack_get_track_tags.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "trackId": {
+            "type": "number",
+            "description": "Track ID to tag"
+          },
+          "force": {
+            "type": "boolean",
+            "default": false,
+            "description": "Queue fresh tagging even if stored tags already exist"
+          }
+        },
+        "required": [
+          "trackId"
+        ],
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    },
+    {
+      "name": "droptrack_auto_tag_tracks",
+      "description": "Apply stored AI track-tagging results to track metadata, matching the dedicated batch_auto_tag endpoint behavior.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "trackIds": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 200,
+            "description": "Track IDs to auto-tag"
+          },
+          "autoUntagged": {
+            "type": "boolean",
+            "default": false,
+            "description": "When trackIds is empty, find recent untagged tracks for the active company"
+          },
+          "queueMissing": {
+            "type": "boolean",
+            "default": true,
+            "description": "Queue tag_audio for tracks without stored tags instead of failing them"
+          },
+          "limit": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 200,
+            "default": 200,
+            "description": "Maximum tracks when autoUntagged is true"
+          }
+        },
+        "additionalProperties": false,
+        "$schema": "http://json-schema.org/draft-07/schema#"
+      }
+    }
+  ]
 }
