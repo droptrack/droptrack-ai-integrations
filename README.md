@@ -96,6 +96,7 @@ The server uses OAuth. Your client should open DropTrack sign-in automatically w
 - [Smithery](https://smithery.ai/servers/droptrack/droptrack)
 - [Glama](https://glama.ai/mcp/connectors/io.github.droptrack/droptrack)
 - [LobeHub](https://lobehub.com/mcp/droptrack)
+- [MCP Servers](https://mcpservers.org/servers/droptrack/droptrack-ai-integrations)
 - [ChatGPT and Codex plugin](https://chatgpt.com/plugins/plugin_asdk_app_6a717dd3f15c819195cf3288aec0207f)
 - [Gemini CLI extension gallery](https://geminicli.com/extensions/), indexed automatically from the public repository topic and root manifest
 
